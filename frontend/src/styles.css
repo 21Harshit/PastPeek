@@ -1,0 +1,96 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f0f2f5;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+input[type="text"] {
+  padding: 8px;
+  width: 70%;
+  margin-right: 5px;
+}
+
+button {
+  padding: 8px;
+  cursor: pointer;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+}
+
+.logout-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ef4444;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
