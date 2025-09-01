@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import Dictionary from "./components/Dictionary";
-import SentencePractice from "./components/SentencePractice";
-
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -27,7 +25,6 @@ function App() {
       <Header user={user} onLogout={handleLogout} />
       <div className="container">
         <Dictionary />
-        {/* <SentencePractice /> */}
       </div>
     </div>
   );
