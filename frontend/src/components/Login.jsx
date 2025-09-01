@@ -5,7 +5,7 @@ import axios from "axios";
 const Login = ({ setUser, setToken }) => {
   const handleLogin = async (credentialResponse) => {
     try {
-      const { data } = await axios.post("https://pastpeek.onrender.com/api/google-login", {
+      const { data } = await axios.post("http://localhost:4000/api/google-login", {
         token: credentialResponse.credential
       });
       setToken(data.jwt);
