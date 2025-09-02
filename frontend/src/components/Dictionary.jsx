@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TodayInHistory = () => {
-  const today = new Date();
+  const [today, setToday] = useState(new Date());
+
   const [articles, setArticles] = useState([]);
 
   // ✅ Load persisted data from localStorage
@@ -68,12 +69,17 @@ const TodayInHistory = () => {
   };
 
   // Load today's fact once (only if not already stored)
-  useEffect(() => {
-     const now= new Date();
-    if (!todayFact) {
-      fetchHistory(now.getMonth()+1, now.getDate(), false);
-    }
-  },[]);
+useEffect(() => {
+  const timer = setInterval(() => {
+    setToday(new Date());
+  }, 60 * 60 * 1000); // check every hour
+  return () => clearInterval(timer);
+}, []);
+
+useEffect(() => {
+  fetchHistory(today.getMonth() + 1, today.getDate(), false);
+}, [today]);
+
 
   // Fetch when user searches
   useEffect(() => {
