@@ -140,7 +140,7 @@ useEffect(() => {
         margin: "50px auto",
         padding: "10px",
         fontFamily: "Arial, sans-serif",
-        backgroundColor: "#e9e7ddff",
+        backgroundColor: "#c1e8eeff",
         borderRadius: "12px",
         boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
       }}
