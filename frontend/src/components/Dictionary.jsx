@@ -138,7 +138,7 @@ useEffect(() => {
     <div
       style={{
         margin: "50px auto",
-        padding: "25px",
+        padding: "10px",
         fontFamily: "Arial, sans-serif",
         backgroundColor: "#e9e7ddff",
         borderRadius: "12px",
