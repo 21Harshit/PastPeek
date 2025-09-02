@@ -137,10 +137,10 @@ useEffect(() => {
   return (
     <div
       style={{
-        margin: "50px auto",
-        padding: "10px",
+        margin: "15px auto",
+        padding: "20px",
         fontFamily: "Arial, sans-serif",
-        backgroundColor: "#c1e8eeff",
+        backgroundColor: "#e9ecccff",
         borderRadius: "12px",
         boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
       }}
@@ -169,6 +169,8 @@ useEffect(() => {
         <div
           style={{
             marginBottom: "30px",
+            marginLeft: "15pxpx",
+            marginRight: "15px",
             padding: "15px",
             backgroundColor: "#fff",
             borderRadius: "10px",
