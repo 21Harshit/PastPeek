@@ -70,9 +70,9 @@ const TodayInHistory = () => {
   // Load today's fact once (only if not already stored)
   useEffect(() => {
     if (!todayFact) {
-      fetchHistory(today.getMonth(), today.getDate()+1, true);
+      fetchHistory(today.getMonth()+1, today.getDate(), true);
     }
-  },[todayFact]);
+  },[]);
 
   // Fetch when user searches
   useEffect(() => {
