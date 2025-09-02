@@ -72,7 +72,7 @@ const TodayInHistory = () => {
     if (!todayFact) {
       fetchHistory(today.getMonth() + 1, today.getDate(), true);
     }
-  },[]);
+  },[today]);
 
   // Fetch when user searches
   useEffect(() => {
