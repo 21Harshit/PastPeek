@@ -76,10 +76,23 @@ useEffect(() => {
   return () => clearInterval(timer);
 }, []);
 
+// ✅ Fetch fact whenever "today" changes
 useEffect(() => {
-  fetchHistory(today.getMonth() + 1, today.getDate(), false);
-}, [today]);
+  const storedFact = localStorage.getItem("todayFact");
+  if (storedFact) {
+    const fact = JSON.parse(storedFact);
 
+    // Check if stored fact matches today's date
+    const todayStr = `${today.getMonth() + 1}-${today.getDate()}`;
+    if (fact.date === todayStr) {
+      setTodayFact(fact); // ✅ use cached fact
+      return;
+    }
+  }
+
+  // If no valid cached fact, fetch fresh
+  fetchHistory(today.getMonth() + 1, today.getDate(), true);
+}, [today]);
 
   // Fetch when user searches
   useEffect(() => {
