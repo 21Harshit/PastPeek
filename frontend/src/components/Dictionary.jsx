@@ -69,8 +69,9 @@ const TodayInHistory = () => {
 
   // Load today's fact once (only if not already stored)
   useEffect(() => {
+    const now= new Date();
     if (!todayFact) {
-      fetchHistory(today.getMonth()+1, today.getDate(), true);
+      fetchHistory(now.getMonth()+1, now.getDate(), false);
     }
   },[]);
 
