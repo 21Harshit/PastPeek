@@ -41,8 +41,6 @@ const TodayInHistory = () => {
 
             "x-rapidapi-host": "today-in-history.p.rapidapi.com",
             "x-rapidapi-key": "4ff9daff7fmsh3cdf47bcbd52f97p1be74ajsn3c90898122b1",
-
-            today-in-history.p.rapidapi.com
           },
           params: { fragment: "true", json: "true" },
         }
@@ -341,6 +339,7 @@ useEffect(() => {
 };
 
 export default TodayInHistory;
+
 
 
 
