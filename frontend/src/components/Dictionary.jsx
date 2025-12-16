@@ -33,14 +33,14 @@ const TodayInHistory = () => {
 
     try {
       const response = await axios.get(
-        `https://numbersapi.p.rapidapi.com/${selectedMonth}/${selectedDay}/date`,
-        {
-          headers: {
-            "x-rapidapi-host": "numbersapi.p.rapidapi.com",
-            "x-rapidapi-key": "c3f5771564msh2776e97d9d59195p1601e0jsn6339a4482d14", 
-          },
-          params: { fragment: "true", json: "true" },
-        }
+        `https://numbersapi.com/${selectedMonth}/${selectedDay}/date`,
+        // {
+        //   headers: {
+        //     "x-rapidapi-host": "numbersapi.p.rapidapi.com",
+        //     "x-rapidapi-key": "c3f5771564msh2776e97d9d59195p1601e0jsn6339a4482d14", 
+        //   },
+        //   params: { fragment: "true", json: "true" },
+        // }
       );
 
       if (response.data) {
@@ -336,6 +336,7 @@ useEffect(() => {
 };
 
 export default TodayInHistory;
+
 
 
 
