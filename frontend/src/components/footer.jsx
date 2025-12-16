@@ -30,7 +30,7 @@ const Footer = () => {
         pointerEvents: showFooter ? "auto" : "none",
         marginTop: "40px",
         padding: "14px 0",
-        backgroundColor: "#f97316",
+        backgroundColor: "#f5e89bff",
         textAlign: "center",
         fontSize: "20px",
         color: "#555",
