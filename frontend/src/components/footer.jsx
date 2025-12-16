@@ -31,7 +31,7 @@ const Footer = () => {
 
         marginTop: "40px",
         padding: "14px 0",
-        backgroundColor: "#86eee5c2",
+        backgroundColor: "#2563eb",
         textAlign: "center",
         fontSize: "20px",
         color: "#555",
