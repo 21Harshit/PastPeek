@@ -148,25 +148,6 @@ const TodayInHistory = () => {
       )}
 
       {/* 🔹 Search */}
-       {/* <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <select value={month} onChange={(e) => setMonth(+e.target.value)}>
-          {Array.from({ length: 12 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-
-        <select value={day} onChange={(e) => setDay(+e.target.value)}>
-          {renderDays().map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
-
-        <button onClick={() => fetchHistory(month, day)}>Search</button>
-      </div>  */}
 
       <div
   style={{
