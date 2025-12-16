@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import Dictionary from "./components/Dictionary";
+import Footer from "./components/footer";
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
