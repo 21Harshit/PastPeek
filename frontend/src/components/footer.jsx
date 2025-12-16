@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Footer = () => {
+  const [showFooter, setShowFooter] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Show footer when user is near bottom
+      if (scrollTop + windowHeight >= docHeight - 50) {
+        setShowFooter(true);
+      } else {
+        setShowFooter(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <footer
       style={{
+        opacity: showFooter ? 1 : 0,
+        transform: showFooter ? "translateY(0)" : "translateY(10px)",
+        transition: "opacity 0.4s ease, transform 0.4s ease",
+        pointerEvents: showFooter ? "auto" : "none",
+
         marginTop: "40px",
         padding: "14px 0",
         backgroundColor: "#f5f5f5",
