@@ -498,7 +498,7 @@ const TodayInHistory = () => {
       )}
 
       {/* 🔹 Search */}
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      {/* <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <select value={month} onChange={(e) => setMonth(+e.target.value)}>
           {Array.from({ length: 12 }, (_, i) => (
             <option key={i + 1} value={i + 1}>
@@ -516,7 +516,87 @@ const TodayInHistory = () => {
         </select>
 
         <button onClick={() => fetchHistory(month, day)}>Search</button>
-      </div>
+      </div> */}
+      {/* 🔹 Improved Search Section */}
+<div
+  style={{
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+    marginBottom: "30px",
+  }}
+>
+  <h3
+    style={{
+      marginBottom: "15px",
+      color: "#8b4513",
+      textAlign: "center",
+    }}
+  >
+    🔍 Explore Another Day in History
+  </h3>
+
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "15px",
+      flexWrap: "wrap",
+    }}
+  >
+    {/* Month */}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <label style={labelStyle}>Month</label>
+      <select
+        value={month}
+        onChange={(e) => setMonth(+e.target.value)}
+        style={selectStyle}
+      >
+        {Array.from({ length: 12 }, (_, i) => (
+          <option key={i + 1} value={i + 1}>
+            {new Date(0, i).toLocaleString("en-IN", { month: "long" })}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Day */}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <label style={labelStyle}>Day</label>
+      <select
+        value={day}
+        onChange={(e) => setDay(+e.target.value)}
+        style={selectStyle}
+      >
+        {renderDays().map((d) => (
+          <option key={d} value={d}>
+            {d}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Search Button */}
+    <button
+      onClick={() => fetchHistory(month, day)}
+      style={{
+        marginTop: "22px",
+        padding: "10px 18px",
+        backgroundColor: "#8b4513",
+        color: "#fff",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontWeight: "bold",
+      }}
+    >
+      Find Events
+    </button>
+  </div>
+</div>
+
 
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
