@@ -43,8 +43,9 @@ const TodayInHistory = () => {
       //   // }
       // );
       const response = await axios.get(
-  `http://numbersapi.com/${selectedMonth}/${selectedDay}/date?json`
+  `https://cors.isomorphic-git.org/http://numbersapi.com/${selectedMonth}/${selectedDay}/date?json`
 );
+
 
 
       if (response.data) {
@@ -99,9 +100,15 @@ useEffect(() => {
 }, [today]);
 
   // Fetch when user searches
+  // useEffect(() => {
+  //   fetchHistory(month, day, false);
+  // }, [month, day]);
   useEffect(() => {
+  if (month && day) {
     fetchHistory(month, day, false);
-  }, [month, day]);
+  }
+}, [month, day]);
+
 
   // ✅ Persist savedArticles
   useEffect(() => {
@@ -340,6 +347,7 @@ useEffect(() => {
 };
 
 export default TodayInHistory;
+
 
 
 
