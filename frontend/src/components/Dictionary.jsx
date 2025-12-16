@@ -349,21 +349,19 @@
 // };
 
 // export default TodayInHistory;
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TodayInHistory = () => {
   const [today, setToday] = useState(new Date());
   const [articles, setArticles] = useState([]);
+  const [todayFact, setTodayFact] = useState(null);
+
   const [savedArticles, setSavedArticles] = useState(
     JSON.parse(localStorage.getItem("savedArticles")) || []
   );
   const [notes, setNotes] = useState(
     JSON.parse(localStorage.getItem("notes")) || {}
-  );
-  const [todayFact, setTodayFact] = useState(
-    JSON.parse(localStorage.getItem("todayFact")) || null
   );
 
   const [loading, setLoading] = useState(false);
@@ -371,39 +369,35 @@ const TodayInHistory = () => {
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [day, setDay] = useState(today.getDate());
 
-  // 🔹 NumbersAPI via CORS-safe relay
+  // 🔹 Fetch from Wikipedia API
   const fetchHistory = async (m, d, isToday = false) => {
     if (!isToday) {
       setLoading(true);
-      setError("");
       setArticles([]);
+      setError("");
     }
 
     try {
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
-        `http://numbersapi.com/${m}/${d}/date?json`
-      )}`;
+      const res = await axios.get(
+        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${m}/${d}`
+      );
 
-      const res = await axios.get(url);
-      const data = JSON.parse(res.data.contents);
-
-      const fact = {
-        id: `${m}-${d}-${data.year}`,
-        title: `Event in ${data.year}`,
+      const events = res.data.events.slice(0, 5).map((event, index) => ({
+        id: `${m}-${d}-${event.year}-${index}`,
+        title: `Event in ${event.year}`,
         date: `${m}-${d}`,
-        description: data.text,
-        dateKey: `${today.getFullYear()}-${m}-${d}`,
-      };
+        description: event.text,
+      }));
 
       if (isToday) {
-        setTodayFact(fact);
-        localStorage.setItem("todayFact", JSON.stringify(fact));
+        setTodayFact(events[0]);
+        localStorage.setItem("todayFact", JSON.stringify(events[0]));
       } else {
-        setArticles([fact]);
+        setArticles(events);
       }
     } catch (err) {
       console.error(err);
-      setError("Failed to fetch historical data.");
+      setError("Failed to fetch historical events.");
       if (isToday) {
         setTodayFact(null);
         localStorage.removeItem("todayFact");
@@ -415,20 +409,18 @@ const TodayInHistory = () => {
 
   // 🔹 Update current date hourly
   useEffect(() => {
-    const timer = setInterval(() => {
-      setToday(new Date());
-    }, 60 * 60 * 1000);
+    const timer = setInterval(() => setToday(new Date()), 60 * 60 * 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // 🔹 Load today fact (with proper cache validation)
+  // 🔹 Load today's fact (cached per day)
   useEffect(() => {
     const stored = localStorage.getItem("todayFact");
-    const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    const todayKey = `${today.getMonth() + 1}-${today.getDate()}`;
 
     if (stored) {
       const fact = JSON.parse(stored);
-      if (fact.dateKey === todayKey) {
+      if (fact.date === todayKey) {
         setTodayFact(fact);
         return;
       }
@@ -437,7 +429,7 @@ const TodayInHistory = () => {
     fetchHistory(today.getMonth() + 1, today.getDate(), true);
   }, [today]);
 
-  // 🔹 Persist data
+  // 🔹 Persist saved items & notes
   useEffect(() => {
     localStorage.setItem("savedArticles", JSON.stringify(savedArticles));
   }, [savedArticles]);
@@ -459,8 +451,8 @@ const TodayInHistory = () => {
     setNotes(updated);
   };
 
-  const handleNoteChange = (id, text) => {
-    setNotes({ ...notes, [id]: text });
+  const handleNoteChange = (id, value) => {
+    setNotes({ ...notes, [id]: value });
   };
 
   const renderDays = () => {
@@ -469,9 +461,22 @@ const TodayInHistory = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "auto" }}>
-      <h1 style={{ textAlign: "center" }}>Today in History</h1>
-      <p style={{ textAlign: "center" }}>
+    <div
+      style={{
+        margin: "15px auto",
+        padding: "20px",
+        fontFamily: "Arial",
+        backgroundColor: "#e9ecccff",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+        maxWidth: "900px",
+      }}
+    >
+      <h1 style={{ textAlign: "center", color: "#8b4513" }}>
+        Today in History
+      </h1>
+
+      <p style={{ textAlign: "center", fontStyle: "italic" }}>
         {today.toLocaleDateString("en-IN", {
           day: "numeric",
           month: "long",
@@ -479,17 +484,21 @@ const TodayInHistory = () => {
         })}
       </p>
 
+      {/* 🔹 Today's Fact */}
       {todayFact && (
-        <div style={{ background: "#fff", padding: "15px", borderRadius: "10px" }}>
-          <h2>Today's Fact</h2>
-          <h3>{todayFact.title}</h3>
-          <p>{todayFact.date}</p>
+        <div style={cardStyle}>
+          <h2 style={headingStyle}>Today's Fact</h2>
+          <h3 style={headingStyle}>{todayFact.title}</h3>
+          <p style={dateStyle}>{todayFact.date}</p>
           <p>{todayFact.description}</p>
-          <button onClick={() => saveArticle(todayFact)}>Save</button>
+          <button style={saveBtn} onClick={() => saveArticle(todayFact)}>
+            Save
+          </button>
         </div>
       )}
 
-      <div style={{ marginTop: "20px" }}>
+      {/* 🔹 Search */}
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <select value={month} onChange={(e) => setMonth(+e.target.value)}>
           {Array.from({ length: 12 }, (_, i) => (
             <option key={i + 1} value={i + 1}>
@@ -513,25 +522,36 @@ const TodayInHistory = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {articles.map((a) => (
-        <div key={a.id} style={{ marginTop: "15px" }}>
-          <h3>{a.title}</h3>
+        <div key={a.id} style={cardStyle}>
+          <h3 style={headingStyle}>{a.title}</h3>
+          <p style={dateStyle}>{a.date}</p>
           <p>{a.description}</p>
-          <button onClick={() => saveArticle(a)}>Save</button>
+          <button style={saveBtn} onClick={() => saveArticle(a)}>
+            Save
+          </button>
         </div>
       ))}
 
+      {/* 🔹 Saved + Notes */}
       {savedArticles.length > 0 && (
-        <div style={{ marginTop: "30px" }}>
-          <h2>Saved Events</h2>
+        <div>
+          <h2 style={headingStyle}>📌 Saved Events & Notes</h2>
           {savedArticles.map((f) => (
-            <div key={f.id}>
+            <div key={f.id} style={cardStyle}>
               <h4>{f.title}</h4>
               <p>{f.description}</p>
               <textarea
+                placeholder="Add notes..."
                 value={notes[f.id] || ""}
                 onChange={(e) => handleNoteChange(f.id, e.target.value)}
+                style={{ width: "100%", marginTop: "10px" }}
               />
-              <button onClick={() => deleteArticle(f.id)}>Delete</button>
+              <button
+                style={{ ...saveBtn, backgroundColor: "#dc2626" }}
+                onClick={() => deleteArticle(f.id)}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
@@ -540,9 +560,31 @@ const TodayInHistory = () => {
   );
 };
 
+const cardStyle = {
+  backgroundColor: "#fff",
+  padding: "15px",
+  borderRadius: "10px",
+  marginBottom: "20px",
+  position: "relative",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+};
+
+const headingStyle = { color: "#8b4513" };
+const dateStyle = { fontStyle: "italic", color: "#a05a2c" };
+
+const saveBtn = {
+  position: "absolute",
+  top: "15px",
+  right: "15px",
+  padding: "6px 12px",
+  backgroundColor: "#2563eb",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+};
+
 export default TodayInHistory;
-
-
 
 
 
