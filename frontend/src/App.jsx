@@ -27,6 +27,7 @@ function App() {
       <div className="container">
         <Dictionary />
       </div>
+      <Footer/>
     </div>
   );
 }
