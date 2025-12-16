@@ -28,7 +28,6 @@ const Footer = () => {
         transform: showFooter ? "translateY(0)" : "translateY(10px)",
         transition: "opacity 0.4s ease, transform 0.4s ease",
         pointerEvents: showFooter ? "auto" : "none",
-
         marginTop: "40px",
         padding: "14px 0",
         backgroundColor: "#f4c456ff",
